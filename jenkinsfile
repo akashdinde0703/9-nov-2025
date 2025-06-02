@@ -1,0 +1,25 @@
+pipeline {
+    agent {
+        node {
+            label 'built-in'
+            customWorkspace '/mnt/jenkins'
+        }
+    }
+
+    stages {
+        stage('Install HTTPD') {
+            steps {
+                sh 'sudo yum install -y httpd'
+                sh 'sudo systemctl start httpd'
+                sh 'sudo systemctl enable httpd'
+            }
+        }
+
+        stage('Create index.html File') {
+            steps {
+            sh 'echo "<h1>Welcome To My Jenkins Website</h1>" | sudo tee /var/www/html/index.html'
+            }
+        }
+        
+    }
+}
